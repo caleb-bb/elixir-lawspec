@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "files": {
+    "src/lawspec_data.erl": "860c508ea77a63af1f38b7179bba2764c37273670ab0270cb518590acb49e10a",
+    "src/lawspec_definitions.erl": "1e2f335e21e2ca8fc4dd02ebdca6451bc3f368b72f1d1a5a2930b06c4d8cdfad",
+    "lib/lawspec/data.ex": "1af86a1ad69da90e7703cadffbe80b0cd9197285ea3852a051c61754205f24e4",
+    "test/support/example_codec_lawspec_cases.erl": "bffeb01b968db2f224c94ccd75501282846b161bb1420e36f8039b2b6383b68d",
+    "test/example_codec_lawspec_test.exs": "f539fad71fa9b699fa81e8a388a9fa632dd77042a3473bc16cd1b769030c4688",
+    "src/lawspec_beam_scalar.erl": "7e51cd83a107016c49b13242ab17a80291f52ac7e79612aa134e7f754d54881d",
+    "src/lawspec_beam_schema.erl": "1c77aeb145b36d69997c8e990054d32d37cb2f1a2cf0a9560187c55f752ba283",
+    "src/lawspec_beam_regex.erl": "73ce80131683121f76ff2c9ef0e03935146847085dae2b1e5eccbb5a24b30dea",
+    "src/lawspec_beam_runtime.erl": "9c9d2e75e97a53bdfc979bf871117c39b74cff1d1e71fae454bca94870a98e94",
+    "src/lawspec_beam_values.erl": "899847de88d311a34932b8e38fdab140ab904c9e107ab1772d2fca32cfaf2e8c",
+    "src/lawspec_beam_recorded.erl": "8d773bc61d5a486d60451719fbb8a401731c6c5c62fc70cf92e95c59dc23f3e6",
+    "test/support/lawspec_beam_report.erl": "65208ad197ec97d583d43a59f613e326268edb90d9cd205668c8282032ef86b8",
+    "test/support/lawspec_beam_generators.erl": "1395117d47d32dd9779881c644d1ef8b2961cc55feabf6ee612d2c8d1a1531f7",
+    "test/support/lawspec_beam_index.erl": "b93e7a40329b2d2146c34c7afb55c04fec479838e34a93611ae5f413e75954a4",
+    "test/support/lawspec_beam_harness.erl": "07265817b9cef19b7b0199c80799f4875464f8992561a3e27e01457dda43ef28",
+    "test/support/lawspec_beam_schedule.erl": "9c510337c8d5f53b5eb13f65ff79c73464815ecde1bdb152dfca7d3df3492fb4",
+    "test/support/lawspec_beam_finite.erl": "9992421a3b3700d93af4bf81c5e313454279f112c3370cf03d358fb72eabcdbe",
+    "test/support/lawspec_beam_stream_data.ex": "5d22168bdbfae45fe23602c0bef5a2f16f393f28544caee25aab0e38b1473d7d",
+    "test/support/lawspec_beam_exunit_formatter.ex": "014418972bc5cf7d2898b845d2ca8d20a62812178b54dbf7b6ba90c934ea4e0c",
+    "test/support/lawspec_beam_exunit_schedule.ex": "a60f810417b1f28cedfde2eeaa15846d9e5ae7af3b167218d3c05c1361a4d7af",
+    "test/support/lawspec_beam_exunit_cases.ex": "cb87062227943d2d05f39f2393dc430b78d92b664b5408bc3eeea49192662b56",
+    "test/support/lawspec_beam_tasks.erl": "7ffa5c5f68612a1fc95bf53fae3b1f043785ead8633617633f5808041e16c675",
+    "test/support/lawspec_beam_search.erl": "8f968bb7fd12885bf6a078bb09f32e42a3084ebc539400c96a8fa3c0747ef213",
+    "test/support/lawspec_beam_random.erl": "62cb7c58104bd8b71dd6f77ec582b2d86585238c22a8f7102c674e431f4f8eb1"
+  },
+  "adapters": {
+    "lib/example_codec.ex": "f7c88fa883324d23d0b43249fa8c626a70b5957696fdc70b8071fed655b32803"
+  }
+}

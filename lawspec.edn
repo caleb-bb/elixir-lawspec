@@ -6,7 +6,7 @@
   }
   :language-profile "1.0-rc.2"
   :verification {
-    :layers []
+    :layers ["property" "examples"]
   }
   :sources ["laws"]
   :targets [
