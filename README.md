@@ -110,7 +110,7 @@ end law
 end unit
 ```
 
-`itoa` and `atoi` here are two functions. This is a round-trip law with a three-row expectation table. What does that actually say? Briefly: you have two functions named `itoa` and `atoi`. The `codec` law specifies a round-trip: if you feed an Int32 to `atoi` and feed the output of `atoi` to `atoa`, then you get back whatever the original input was. The `in table` block says what specific values `encoded` and `x` should have relative to one another for certain inputs.
+`itoa` and `atoi` here are two functions. This is a round-trip law with a three-row expectation table. What does that actually say? Briefly: you have two functions named `itoa` and `atoi`. The `codec` law specifies a round-trip: if you feed an Int32 to `itoa` and feed the output of `itoa` to `atoi`, then you get back whatever the original input was. The `in table` block says what specific values `encoded` and `x` should have relative to one another for certain inputs.
 
 
 
@@ -164,17 +164,17 @@ The process is simple.
 3. The property tests call functions in the adapter, which call functions in your native code.
 4. Your code passes or fails the generated property tests.
 
-So, from a ten-thousand foot view: you write laws in LawSpec that generate property tests, and you write adapters that plug your native code into the property tests, and you just trust the LawSpec adapter that its generated property tests reflect its laws.
+So, from a ten-thousand foot view: you write laws in LawSpec that generate property tests, and you write adapters that plug your native code into the property tests, and you just trust the LawSpec compiler that its generated property tests reflect its laws.
 
 ### itoa and atoi
 
 Back in the Jurassic Era, when the only people working on computers were fat guys who looked like George RR Martin and had fingers covered in Cheetoh dust, people wrote things in C. C tends to use terse names for things because it comes from an era when memory was at a premium. Two very common functions back then were integer-to-ASCII (itoa) and ASCII-to-integer (atoi). In Elixir, these roles are filled by `Integer.to_string/1` and `String.to_integer/1`.
 
-That `not implemented: example.codec::itoa` error from before is happening because you have not yet implemented the adapter to plug your code into the two generated laws. So let's do that.
+That `not implemented: example.codec::itoa` error from before is happening because you have not yet implemented the adapter to plug your code into the generated tests. So let's do that.
 
 ### Example.Codec
 
-The adapter you want to work on has already been stubbed out by the LawSpec compiler and lives under `/lib/example_codec.ex`. It looks like this:
+The adapter you want to work on has already been stubbed out by the LawSpec compiler and lives under `lib/example_codec.ex`. It looks like this:
 
 ``` elixir
 # User-owned LawSpec adapter. Implement these functions.
