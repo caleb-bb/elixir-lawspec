@@ -110,7 +110,9 @@ end law
 end unit
 ```
 
-`itoa` and `atoi` here are two functions. This is a round-trip law with a three-row expectation table.
+`itoa` and `atoi` here are two functions. This is a round-trip law with a three-row expectation table. What does that actually say? Briefly: you have two functions named `itoa` and `atoi`. The `codec` law specifies a round-trip: if you feed an Int32 to `atoi` and feed the output of `atoi` to `atoa`, then you get back whatever the original input was. The `in table` block says what specific values `encoded` and `x` should have relative to one another for certain inputs.
+
+
 
 ## Activation
 
@@ -143,3 +145,73 @@ elixir: 26 applied change(s), 0 user adapter(s) preserved.
 ```
 
 Then run `mix test`. You should get some test failures now. They should all fail on `not implemented: example.codec::itoa`.
+
+### Generated Laws
+Your first generated
+
+## Implementation
+
+This means you haven't implemented the adapter yet. So, it's time to do that. But before we do, a brief word on what adapters actually are.
+
+LawSpec gives you an ML-like syntax for specifying laws. These laws are mathematical statements that must be true of a codebase. Your actual code, the *native* code, has to follow LawSpec as a set of constraints. But LawSpec lives in its own language, its own little country, whereas your native code lives in whatever programming language you already write in. The laws need some sort of way to connect to your native code. The adapters are what do that.
+
+
+### How LawSpec sees your native code
+The process is simple.
+
+1. The laws written in LawSpec specify a law: all As must be B.
+2. The LawSpec compiler reads the laws and uses them to generate property tests
+3. The property tests call functions in the adapter, which call functions in your native code.
+4. Your code passes or fails the generated property tests.
+
+So, from a ten-thousand foot view: you write laws in LawSpec that generate property tests, and you write adapters that plug your native code into the property tests, and you just trust the LawSpec adapter that its generated property tests reflect its laws.
+
+### itoa and atoi
+
+Back in the Jurassic Era, when the only people working on computers were fat guys who looked like George RR Martin and had fingers covered in Cheetoh dust, people wrote things in C. C tends to use terse names for things because it comes from an era when memory was at a premium. Two very common functions back then were integer-to-ASCII (itoa) and ASCII-to-integer (atoi). In Elixir, these roles are filled by `Integer.to_string/1` and `String.to_integer/1`.
+
+That `not implemented: example.codec::itoa` error from before is happening because you have not yet implemented the adapter to plug your code into the two generated laws. So let's do that.
+
+### Example.Codec
+
+The adapter you want to work on has already been stubbed out by the LawSpec compiler and lives under `/lib/example_codec.ex`. It looks like this:
+
+``` elixir
+# User-owned LawSpec adapter. Implement these functions.
+defmodule Example.Codec do
+  @spec itoa(-2_147_483_648..2_147_483_647) :: binary()
+
+  def itoa(_int32) do
+    raise "Not implemented: example.codec::itoa"
+  end
+
+  @spec atoi(binary()) :: -2_147_483_648..2_147_483_647
+
+  def atoi(_text) do
+    raise "Not implemented: example.codec::atoi"
+  end
+end
+```
+
+Stop now and try and implement it yourself. It's almost trivial. You can figure it out from how I explained `atoi` and `itoa`.
+
+Finished? It should look like this:
+
+``` elixir
+# User-owned LawSpec adapter. Implement these functions.
+defmodule Example.Codec do
+  @spec itoa(-2_147_483_648..2_147_483_647) :: binary()
+
+  def itoa(int32) do
+    Integer.to_string(int32)
+  end
+
+  @spec atoi(binary()) :: -2_147_483_648..2_147_483_647
+
+  def atoi(text) do
+    String.to_integer(text)
+  end
+end
+```
+
+This will pass when you run `mix test`.
