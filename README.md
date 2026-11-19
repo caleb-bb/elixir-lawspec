@@ -213,9 +213,11 @@ end
 
 This will pass when you run `mix test`.
 
+[terminal output needed]
+
 ### Now, let's break it
 
-Generally speaking, a test that has only ever passed usually doesn't prove anything. You want to see it fail at least once.
+A test that has only ever passed usually doesn't prove anything. You want to see it fail at least once.
 
 First, let's break `itoa` in the adapter `Example.Codec` by deleting the sign:
 
@@ -225,16 +227,22 @@ def itoa(int32) do
 end
 ```
 
-Run `mix test` again and you should get some failures: the hardcoded `row -42, "-42"` will fail because it goes to a `"42"` instead, thanks to the absolute value function. What went in is no longer what came back and the round trip breaks, invalidating the law and failing the test.
+Run `mix test` again and you should get failures from both layers. The examples layer fails on the hardcoded `row -42, "-42"`: thanks to the absolute value function, `itoa` now returns `"42"` where the row expects `"-42"`. The property layer fails too, and for a different reason. It went looking for an input where what went in is not what came back, and it found one on its own. You never told it which number to try. The round trip breaks, invalidating the law and failing the test.
+
+[terminal output needed]
 
 Now, that break is caught by the hardcoded table, so a skeptical person could assert that we have not really demonstrated anything about the property tests. Very well, then. Let's break `itoa` a little differently:
 
 ``` elixir
-def itoa(int32) when int32 > 1000, do: "1000"
+def itoa(int32) when int32 > 42, do: "1000"
 def itoa(int32), do: Integer.to_string(int32)
 ```
 
-Note that, because 1000 is greater than 42 and -42, all three of the hardcoded rows pass. Only the property tests can catch this. Run `mix test` and seeing is believing: the property tests work! Now change your adapter back to:
+Note that none of the three hardcoded rows is above 42, so none of them reaches the broken clause, and all three pass. Only the property tests can catch this. Run `mix test` and seeing is believing: the property tests work!
+
+[terminal output needed]
+
+Now change your adapter back to:
 
 ``` elixir
 # User-owned LawSpec adapter. Implement these functions.
@@ -253,4 +261,7 @@ defmodule Example.Codec do
 end
 ```
 
+Run `mix test` one more time and everything passes again.
+
+[terminal output needed]
 
