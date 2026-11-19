@@ -146,9 +146,6 @@ elixir: 26 applied change(s), 0 user adapter(s) preserved.
 
 Then run `mix test`. You should get some test failures now. They should all fail on `not implemented: example.codec::itoa`.
 
-### Generated Laws
-Your first generated
-
 ## Implementation
 
 This means you haven't implemented the adapter yet. So, it's time to do that. But before we do, a brief word on what adapters actually are.
@@ -215,3 +212,45 @@ end
 ```
 
 This will pass when you run `mix test`.
+
+### Now, let's break it
+
+Generally speaking, a test that has only ever passed usually doesn't prove anything. You want to see it fail at least once.
+
+First, let's break `itoa` in the adapter `Example.Codec` by deleting the sign:
+
+``` elixir
+def itoa(int32) do
+  Integer.to_string(abs(int32))
+end
+```
+
+Run `mix test` again and you should get some failures: the hardcoded `row -42, "-42"` will fail because it goes to a `"42"` instead, thanks to the absolute value function. What went in is no longer what came back and the round trip breaks, invalidating the law and failing the test.
+
+Now, that break is caught by the hardcoded table, so a skeptical person could assert that we have not really demonstrated anything about the property tests. Very well, then. Let's break `itoa` a little differently:
+
+``` elixir
+def itoa(int32) when int32 > 1000, do: "1000"
+def itoa(int32), do: Integer.to_string(int32)
+```
+
+Note that, because 1000 is greater than 42 and -42, all three of the hardcoded rows pass. Only the property tests can catch this. Run `mix test` and seeing is believing: the property tests work! Now change your adapter back to:
+
+``` elixir
+# User-owned LawSpec adapter. Implement these functions.
+defmodule Example.Codec do
+  @spec itoa(-2_147_483_648..2_147_483_647) :: binary()
+
+  def itoa(int32) do
+    Integer.to_string(int32)
+  end
+
+  @spec atoi(binary()) :: -2_147_483_648..2_147_483_647
+
+  def atoi(text) do
+    String.to_integer(text)
+  end
+end
+```
+
+
